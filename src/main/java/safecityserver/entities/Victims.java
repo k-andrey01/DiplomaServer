@@ -1,11 +1,16 @@
 package safecityserver.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Getter
+@Setter
 public class Victims {
 
     @Id
@@ -15,37 +20,5 @@ public class Victims {
     private Integer age;
     private String gender;
     private Integer crimeId;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public Integer getCrimeId() {
-        return crimeId;
-    }
-
-    public void setCrimeId(Integer crimeId) {
-        this.crimeId = crimeId;
-    }
 
 }
