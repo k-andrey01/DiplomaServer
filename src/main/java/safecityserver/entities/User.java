@@ -18,7 +18,7 @@ public class User {
     private String name;
     private String surname;
     private Date birthdate;
-    private Integer genderId;
+    private String gender;
 
     public Integer getId() {
         return id;
@@ -68,12 +68,12 @@ public class User {
         this.birthdate = birthdate;
     }
 
-    public Integer getGenderId() {
-        return genderId;
+    public String getGender() {
+        return gender;
     }
 
-    public void setGenderId(Integer genderId) {
-        this.genderId = genderId;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 }

@@ -13,7 +13,7 @@ public class Victims {
     private Integer id;
 
     private Integer age;
-    private Integer genderId;
+    private String gender;
     private Integer crimeId;
 
     public Integer getId() {
@@ -32,12 +32,12 @@ public class Victims {
         this.age = age;
     }
 
-    public Integer getGenderId() {
-        return genderId;
+    public String getGender() {
+        return gender;
     }
 
-    public void setGenderId(Integer genderId) {
-        this.genderId = genderId;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public Integer getCrimeId() {
