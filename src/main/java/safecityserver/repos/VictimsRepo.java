@@ -9,4 +9,3 @@ import safecityserver.entities.Victims;
 public interface VictimsRepo extends CrudRepository<Victims, Integer> {
 
 }
-

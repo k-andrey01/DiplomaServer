@@ -9,4 +9,3 @@ import safecityserver.entities.Type;
 public interface TypeRepo extends CrudRepository<Type, Integer> {
 
 }
-
