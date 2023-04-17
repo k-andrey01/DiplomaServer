@@ -7,6 +7,7 @@ import safecityserver.entities.User;
 import safecityserver.repos.UserRepo;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/user")
@@ -33,5 +34,36 @@ public class UserController {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<User> getAllUser() {
         return userRepo.findAll();
+    }
+
+    @PutMapping(path="/update/{id}")
+    public @ResponseBody String updateUser(@PathVariable("id") Integer id, @RequestParam String login, @RequestParam String password,
+                                              @RequestParam String name, @RequestParam String surname, @RequestParam Date birthdate,
+                                              @RequestParam String gender) {
+        Optional<User> optionalUser = userRepo.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setLogin(login);
+            user.setPassword(password);
+            user.setName(name);
+            user.setSurname(surname);
+            user.setBirthdate(birthdate);
+            user.setGender(gender);
+            userRepo.save(user);
+            return "Updated";
+        } else {
+            return "Address not found";
+        }
+    }
+
+    @DeleteMapping(path="/delete/{id}")
+    public @ResponseBody String deleteUser(@PathVariable("id") Integer id) {
+        Optional<User> optionalUser = userRepo.findById(id);
+        if (optionalUser.isPresent()) {
+            userRepo.delete(optionalUser.get());
+            return "Deleted";
+        } else {
+            return "Address not found";
+        }
     }
 }
