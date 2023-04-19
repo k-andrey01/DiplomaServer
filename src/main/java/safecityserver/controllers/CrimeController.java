@@ -3,7 +3,10 @@ package safecityserver.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import safecityserver.entities.Address;
 import safecityserver.entities.Crime;
+import safecityserver.entities.Type;
+import safecityserver.entities.User;
 import safecityserver.repos.CrimeRepo;
 
 import java.util.Date;
@@ -17,15 +20,15 @@ public class CrimeController {
 
     @PostMapping(path="/add")
     public @ResponseBody
-    String addNewCrime (@RequestParam Date timeCrime, @RequestParam Date timeRecord, @RequestParam Integer typeId,
-                        @RequestParam Integer addressId, @RequestParam Integer witnessId,
+    String addNewCrime (@RequestParam Date timeCrime, @RequestParam Date timeRecord, @RequestParam Type type,
+                        @RequestParam Address address, @RequestParam User witness,
                         @RequestParam String comment) {
         Crime crime = new Crime();
         crime.setTimeCrime(timeCrime);
         crime.setTimeRecord(timeRecord);
-        crime.setTypeId(typeId);
-        crime.setAddressId(addressId);
-        crime.setWitnessId(witnessId);
+        crime.setType(type);
+        crime.setAddress(address);
+        crime.setWitness(witness);
         crime.setComment(comment);
         crimeRepo.save(crime);
         return "Saved";
@@ -38,16 +41,16 @@ public class CrimeController {
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam Date timeCrime, @RequestParam Date timeRecord,
-                                              @RequestParam Integer typeId, @RequestParam Integer addressId, @RequestParam Integer witnessId,
-                                              @RequestParam String comment) {
+                                            @RequestParam Type type, @RequestParam Address address, @RequestParam User witness,
+                                            @RequestParam String comment) {
         Optional<Crime> optionalCrime = crimeRepo.findById(id);
         if (optionalCrime.isPresent()) {
             Crime crime = optionalCrime.get();
             crime.setTimeCrime(timeCrime);
             crime.setTimeRecord(timeRecord);
-            crime.setTypeId(typeId);
-            crime.setAddressId(addressId);
-            crime.setWitnessId(witnessId);
+            crime.setType(type);
+            crime.setAddress(address);
+            crime.setWitness(witness);
             crime.setComment(comment);
             crimeRepo.save(crime);
             return "Updated";

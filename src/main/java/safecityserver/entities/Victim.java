@@ -3,10 +3,7 @@ package safecityserver.entities;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -19,6 +16,9 @@ public class Victim {
 
     private Integer age;
     private String gender;
-    private Integer crimeId;
+    //private Integer crimeId;
 
+    @ManyToOne
+    @JoinColumn(name = "crime_id", referencedColumnName = "id")
+    private Crime crime;
 }

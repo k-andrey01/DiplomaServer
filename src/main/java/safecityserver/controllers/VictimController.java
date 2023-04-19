@@ -3,6 +3,7 @@ package safecityserver.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import safecityserver.entities.Crime;
 import safecityserver.entities.Victim;
 import safecityserver.repos.VictimRepo;
 
@@ -16,11 +17,11 @@ public class VictimController {
 
     @PostMapping(path="/add")
     public @ResponseBody
-    String addNewVictims (@RequestParam Integer age, @RequestParam String gender, @RequestParam Integer crimeId) {
+    String addNewVictims (@RequestParam Integer age, @RequestParam String gender, @RequestParam Crime crime) {
         Victim victim = new Victim();
         victim.setAge(age);
         victim.setGender(gender);
-        victim.setCrimeId(crimeId);
+        victim.setCrime(crime);
         victimRepo.save(victim);
         return "Saved";
     }
@@ -32,13 +33,13 @@ public class VictimController {
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateVictims(@PathVariable("id") Integer id, @RequestParam Integer age,
-                                           @RequestParam String gender, @RequestParam Integer crimeId) {
+                                           @RequestParam String gender, @RequestParam Crime crime) {
         Optional<Victim> optionalVictim = victimRepo.findById(id);
         if (optionalVictim.isPresent()) {
             Victim victim = optionalVictim.get();
             victim.setAge(age);
             victim.setGender(gender);
-            victim.setCrimeId(crimeId);
+            victim.setCrime(crime);
             victimRepo.save(victim);
             return "Updated";
         } else {
