@@ -18,9 +18,9 @@ public class Crime {
 
     private Date timeCrime;
     private Date timeRecord;
-    //private Integer typeId;
-    //private Integer addressId;
-    //private Integer witnessId;
+    private Integer typeId;
+    private Integer addressId;
+    private Integer witnessId;
     private String comment;
 
     @OneToOne(optional = true)

@@ -17,7 +17,7 @@ public class VictimController {
 
     @PostMapping(path="/add")
     public @ResponseBody
-    String addNewVictims (@RequestParam Integer age, @RequestParam String gender, @RequestParam Crime crime) {
+    String addNewVictim (@RequestParam Integer age, @RequestParam String gender, @RequestParam Crime crime) {
         Victim victim = new Victim();
         victim.setAge(age);
         victim.setGender(gender);
@@ -31,8 +31,13 @@ public class VictimController {
         return victimRepo.findAll();
     }
 
+    @GetMapping(path="/select/{id}")
+    public @ResponseBody Optional<Victim> getVictimById(@PathVariable("id") Integer id) {
+        return victimRepo.findById(id);
+    }
+
     @PutMapping(path="/update/{id}")
-    public @ResponseBody String updateVictims(@PathVariable("id") Integer id, @RequestParam Integer age,
+    public @ResponseBody String updateVictim(@PathVariable("id") Integer id, @RequestParam Integer age,
                                            @RequestParam String gender, @RequestParam Crime crime) {
         Optional<Victim> optionalVictim = victimRepo.findById(id);
         if (optionalVictim.isPresent()) {
@@ -48,11 +53,38 @@ public class VictimController {
     }
 
     @DeleteMapping(path="/delete/{id}")
-    public @ResponseBody String deleteVictims(@PathVariable("id") Integer id) {
+    public @ResponseBody String deleteVictim(@PathVariable("id") Integer id) {
         Optional<Victim> optionalVictim = victimRepo.findById(id);
         if (optionalVictim.isPresent()) {
             victimRepo.delete(optionalVictim.get());
             return "Deleted";
+        } else {
+            return "Address not found";
+        }
+    }
+
+    @PostMapping(path="/addPost")
+    public @ResponseBody
+    String addNewVictim (@RequestParam Integer age, @RequestParam String gender, @RequestParam Integer crimeId) {
+        Victim victim = new Victim();
+        victim.setAge(age);
+        victim.setGender(gender);
+        victim.setCrimeId(crimeId);
+        victimRepo.save(victim);
+        return "Saved";
+    }
+
+    @PutMapping(path="/updatePost/{id}")
+    public @ResponseBody String updateVictim (@PathVariable("id") Integer id, @RequestParam Integer age,
+                                              @RequestParam String gender, @RequestParam Integer crimeId) {
+        Optional<Victim> optionalVictim = victimRepo.findById(id);
+        if (optionalVictim.isPresent()) {
+            Victim victim = optionalVictim.get();
+            victim.setAge(age);
+            victim.setGender(gender);
+            victim.setCrimeId(crimeId);
+            victimRepo.save(victim);
+            return "Updated";
         } else {
             return "Address not found";
         }

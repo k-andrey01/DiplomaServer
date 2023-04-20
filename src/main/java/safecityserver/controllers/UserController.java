@@ -36,6 +36,11 @@ public class UserController {
         return userRepo.findAll();
     }
 
+    @GetMapping(path="/select/{id}")
+    public @ResponseBody Optional<User> getUserById(@PathVariable("id") Integer id) {
+        return userRepo.findById(id);
+    }
+
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateUser(@PathVariable("id") Integer id, @RequestParam String login, @RequestParam String password,
                                               @RequestParam String name, @RequestParam String surname, @RequestParam Date birthdate,

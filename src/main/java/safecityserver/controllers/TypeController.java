@@ -27,6 +27,11 @@ public class TypeController {
         return typeRepo.findAll();
     }
 
+    @GetMapping(path="/select/{id}")
+    public @ResponseBody Optional<Type> getTypeById(@PathVariable("id") Integer id) {
+        return typeRepo.findById(id);
+    }
+
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateType(@PathVariable("id") Integer id, @RequestParam String nameType) {
         Optional<Type> optionalType = typeRepo.findById(id);

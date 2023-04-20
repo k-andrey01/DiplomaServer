@@ -34,6 +34,11 @@ public class AddressController {
         return addressRepo.findAll();
     }
 
+    @GetMapping(path="/select/{id}")
+    public @ResponseBody Optional<Address> getAddressById(@PathVariable("id") Integer id) {
+        return addressRepo.findById(id);
+    }
+
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateAddress(@PathVariable("id") Integer id, @RequestParam String city, @RequestParam String district,
                                               @RequestParam String street, @RequestParam Double coordX, @RequestParam Double coordY,
