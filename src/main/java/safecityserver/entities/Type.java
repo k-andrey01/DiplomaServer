@@ -16,6 +16,7 @@ public class Type {
     private Integer id;
 
     private String nameType;
+    private String kind;
 
     @OneToMany
     private List<Crime> crimes;

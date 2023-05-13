@@ -15,9 +15,10 @@ public class TypeController {
     private TypeRepo typeRepo;
 
     @PostMapping(path="/add")
-    public @ResponseBody String addNewType (@RequestParam String typeName) {
+    public @ResponseBody String addNewType (@RequestParam String typeName, @RequestParam String kind) {
         Type type = new Type();
         type.setNameType(typeName);
+        type.setKind(kind);
         typeRepo.save(type);
         return "Saved";
     }
@@ -33,11 +34,12 @@ public class TypeController {
     }
 
     @PutMapping(path="/update/{id}")
-    public @ResponseBody String updateType(@PathVariable("id") Integer id, @RequestParam String nameType) {
+    public @ResponseBody String updateType(@PathVariable("id") Integer id, @RequestParam String nameType, @RequestParam String kind) {
         Optional<Type> optionalType = typeRepo.findById(id);
         if (optionalType.isPresent()) {
             Type type = optionalType.get();
             type.setNameType(nameType);
+            type.setKind(kind);
             typeRepo.save(type);
             return "Updated";
         } else {
