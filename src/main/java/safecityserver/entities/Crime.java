@@ -18,9 +18,9 @@ public class Crime {
 
     private Date timeCrime;
     private Date timeRecord;
-    private Integer typeId;
-    private Integer addressId;
-    private Integer witnessId;
+    //private Integer typeId;
+    //private Integer addressId;
+    //private Integer witnessId;
     private String comment;
 
     @OneToOne(optional = true)
@@ -33,7 +33,7 @@ public class Crime {
 
     @ManyToOne
     @JoinColumn(name = "witness_id", referencedColumnName = "id")
-    private User witness;
+    private Userr witness;
 
     @OneToMany
     private List<Victim> victims;

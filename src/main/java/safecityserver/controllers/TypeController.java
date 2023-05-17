@@ -34,7 +34,8 @@ public class TypeController {
     }
 
     @PutMapping(path="/update/{id}")
-    public @ResponseBody String updateType(@PathVariable("id") Integer id, @RequestParam String nameType, @RequestParam String kind) {
+    public @ResponseBody String updateType(@PathVariable("id") Integer id, @RequestParam String nameType,
+                                           @RequestParam String kind) {
         Optional<Type> optionalType = typeRepo.findById(id);
         if (optionalType.isPresent()) {
             Type type = optionalType.get();

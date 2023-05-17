@@ -16,7 +16,7 @@ public class Victim {
 
     private Integer age;
     private String gender;
-    private Integer crimeId;
+    //private Integer crimeId;
 
     @ManyToOne
     @JoinColumn(name = "crime_id", referencedColumnName = "id")

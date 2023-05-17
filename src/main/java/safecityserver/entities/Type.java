@@ -21,4 +21,3 @@ public class Type {
     @OneToMany
     private List<Crime> crimes;
 }
-

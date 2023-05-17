@@ -9,7 +9,7 @@ import safecityserver.repos.VictimRepo;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(path="/victim")
 public class VictimController {
     @Autowired
@@ -63,30 +63,30 @@ public class VictimController {
         }
     }
 
-    @PostMapping(path="/addPost")
-    public @ResponseBody
-    String addNewVictim (@RequestParam Integer age, @RequestParam String gender, @RequestParam Integer crimeId) {
-        Victim victim = new Victim();
-        victim.setAge(age);
-        victim.setGender(gender);
-        victim.setCrimeId(crimeId);
-        victimRepo.save(victim);
-        return "Saved";
-    }
+//    @PostMapping(path="/addPost")
+//    public @ResponseBody
+//    String addNewVictim (@RequestParam Integer age, @RequestParam String gender, @RequestParam Integer crimeId) {
+//        Victim victim = new Victim();
+//        victim.setAge(age);
+//        victim.setGender(gender);
+//        victim.setCrimeId(crimeId);
+//        victimRepo.save(victim);
+//        return "Saved";
+//    }
 
-    @PutMapping(path="/updatePost/{id}")
-    public @ResponseBody String updateVictim (@PathVariable("id") Integer id, @RequestParam Integer age,
-                                              @RequestParam String gender, @RequestParam Integer crimeId) {
-        Optional<Victim> optionalVictim = victimRepo.findById(id);
-        if (optionalVictim.isPresent()) {
-            Victim victim = optionalVictim.get();
-            victim.setAge(age);
-            victim.setGender(gender);
-            victim.setCrimeId(crimeId);
-            victimRepo.save(victim);
-            return "Updated";
-        } else {
-            return "Address not found";
-        }
-    }
+//    @PutMapping(path="/updatePost/{id}")
+//    public @ResponseBody String updateVictim (@PathVariable("id") Integer id, @RequestParam Integer age,
+//                                              @RequestParam String gender, @RequestParam Integer crimeId) {
+//        Optional<Victim> optionalVictim = victimRepo.findById(id);
+//        if (optionalVictim.isPresent()) {
+//            Victim victim = optionalVictim.get();
+//            victim.setAge(age);
+//            victim.setGender(gender);
+//            victim.setCrimeId(crimeId);
+//            victimRepo.save(victim);
+//            return "Updated";
+//        } else {
+//            return "Address not found";
+//        }
+//    }
 }

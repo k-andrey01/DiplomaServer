@@ -1,11 +1,14 @@
 package safecityserver.repos;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import safecityserver.entities.Type;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface TypeRepo extends CrudRepository<Type, Integer> {
+@Repository
+public interface TypeRepo extends JpaRepository<Type, Integer> {
 
 }

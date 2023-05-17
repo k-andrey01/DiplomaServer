@@ -1,11 +1,14 @@
 package safecityserver.repos;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import safecityserver.entities.Address;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
 
-public interface AddressRepo extends CrudRepository<Address, Integer> {
+@Repository
+public interface AddressRepo extends JpaRepository<Address, Integer> {
 
 }

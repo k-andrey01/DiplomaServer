@@ -8,7 +8,7 @@ import safecityserver.repos.AddressRepo;
 
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(path="/address")
 public class AddressController {
     @Autowired

@@ -3,7 +3,7 @@ package safecityserver.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import safecityserver.entities.User;
+import safecityserver.entities.Userr;
 import safecityserver.repos.UserRepo;
 
 import java.util.Date;
@@ -20,7 +20,7 @@ public class UserController {
     String addNewUser (@RequestParam String login, @RequestParam String password, @RequestParam String name,
                        @RequestParam String surname, @RequestParam Date birthdate,
                        @RequestParam String gender) {
-        User user = new User();
+        Userr user = new Userr();
         user.setLogin(login);
         user.setPassword(password);
         user.setName(name);
@@ -32,22 +32,22 @@ public class UserController {
     }
 
     @GetMapping(path="/all")
-    public @ResponseBody Iterable<User> getAllUser() {
+    public @ResponseBody Iterable<Userr> getAllUser() {
         return userRepo.findAll();
     }
 
     @GetMapping(path="/select/{id}")
-    public @ResponseBody Optional<User> getUserById(@PathVariable("id") Integer id) {
+    public @ResponseBody Optional<Userr> getUserById(@PathVariable("id") Integer id) {
         return userRepo.findById(id);
     }
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateUser(@PathVariable("id") Integer id, @RequestParam String login, @RequestParam String password,
-                                              @RequestParam String name, @RequestParam String surname, @RequestParam Date birthdate,
-                                              @RequestParam String gender) {
-        Optional<User> optionalUser = userRepo.findById(id);
+                                           @RequestParam String name, @RequestParam String surname, @RequestParam Date birthdate,
+                                           @RequestParam String gender) {
+        Optional<Userr> optionalUser = userRepo.findById(id);
         if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+            Userr user = optionalUser.get();
             user.setLogin(login);
             user.setPassword(password);
             user.setName(name);
@@ -63,7 +63,7 @@ public class UserController {
 
     @DeleteMapping(path="/delete/{id}")
     public @ResponseBody String deleteUser(@PathVariable("id") Integer id) {
-        Optional<User> optionalUser = userRepo.findById(id);
+        Optional<Userr> optionalUser = userRepo.findById(id);
         if (optionalUser.isPresent()) {
             userRepo.delete(optionalUser.get());
             return "Deleted";

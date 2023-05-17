@@ -9,7 +9,7 @@ import safecityserver.repos.CrimeRepo;
 import java.util.Date;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(path="/crime")
 public class CrimeController {
     @Autowired
@@ -18,7 +18,7 @@ public class CrimeController {
     @PostMapping(path="/add")
     public @ResponseBody
     String addNewCrime (@RequestParam Date timeCrime, @RequestParam Date timeRecord, @RequestParam Type type,
-                        @RequestParam Address address, @RequestParam User witness,
+                        @RequestParam Address address, @RequestParam Userr witness,
                         @RequestParam String comment) {
         Crime crime = new Crime();
         crime.setTimeCrime(timeCrime);
@@ -43,7 +43,7 @@ public class CrimeController {
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam Date timeCrime, @RequestParam Date timeRecord,
-                                            @RequestParam Type type, @RequestParam Address address, @RequestParam User witness,
+                                            @RequestParam Type type, @RequestParam Address address, @RequestParam Userr witness,
                                             @RequestParam String comment) {
         Optional<Crime> optionalCrime = crimeRepo.findById(id);
         if (optionalCrime.isPresent()) {
@@ -72,39 +72,39 @@ public class CrimeController {
         }
     }
 
-    @PostMapping(path="/addPost")
-    public @ResponseBody
-    String addNewCrime (@RequestParam Date timeCrime, @RequestParam Date timeRecord, @RequestParam Integer typeId,
-                        @RequestParam Integer addressId, @RequestParam Integer witnessId,
-                        @RequestParam String comment) {
-        Crime crime = new Crime();
-        crime.setTimeCrime(timeCrime);
-        crime.setTimeRecord(timeRecord);
-        crime.setTypeId(typeId);
-        crime.setAddressId(addressId);
-        crime.setWitnessId(witnessId);
-        crime.setComment(comment);
-        crimeRepo.save(crime);
-        return "Saved";
-    }
+//    @PostMapping(path="/addPost")
+//    public @ResponseBody
+//    String addNewCrime (@RequestParam Date timeCrime, @RequestParam Date timeRecord, @RequestParam Integer typeId,
+//                        @RequestParam Integer addressId, @RequestParam Integer witnessId,
+//                        @RequestParam String comment) {
+//        Crime crime = new Crime();
+//        crime.setTimeCrime(timeCrime);
+//        crime.setTimeRecord(timeRecord);
+//        crime.setTypeId(typeId);
+//        crime.setAddressId(addressId);
+//        crime.setWitnessId(witnessId);
+//        crime.setComment(comment);
+//        crimeRepo.save(crime);
+//        return "Saved";
+//    }
 
-    @PutMapping(path="/updatePost/{id}")
-    public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam Date timeCrime, @RequestParam Date timeRecord,
-                                            @RequestParam Integer typeId, @RequestParam Integer addressId, @RequestParam Integer witnessId,
-                                            @RequestParam String comment) {
-        Optional<Crime> optionalCrime = crimeRepo.findById(id);
-        if (optionalCrime.isPresent()) {
-            Crime crime = optionalCrime.get();
-            crime.setTimeCrime(timeCrime);
-            crime.setTimeRecord(timeRecord);
-            crime.setTypeId(typeId);
-            crime.setAddressId(addressId);
-            crime.setWitnessId(witnessId);
-            crime.setComment(comment);
-            crimeRepo.save(crime);
-            return "Updated";
-        } else {
-            return "Address not found";
-        }
-    }
+//    @PutMapping(path="/updatePost/{id}")
+//    public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam Date timeCrime, @RequestParam Date timeRecord,
+//                                            @RequestParam Integer typeId, @RequestParam Integer addressId, @RequestParam Integer witnessId,
+//                                            @RequestParam String comment) {
+//        Optional<Crime> optionalCrime = crimeRepo.findById(id);
+//        if (optionalCrime.isPresent()) {
+//            Crime crime = optionalCrime.get();
+//            crime.setTimeCrime(timeCrime);
+//            crime.setTimeRecord(timeRecord);
+//            crime.setTypeId(typeId);
+//            crime.setAddressId(addressId);
+//            crime.setWitnessId(witnessId);
+//            crime.setComment(comment);
+//            crimeRepo.save(crime);
+//            return "Updated";
+//        } else {
+//            return "Address not found";
+//        }
+//    }
 }
