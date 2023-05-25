@@ -55,7 +55,7 @@ public class TypeController {
             typeRepo.delete(optionalType.get());
             return "Deleted";
         } else {
-            return "Address not found";
+            return "Type not found";
         }
     }
 }

@@ -49,13 +49,15 @@ public class UserController {
 
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateUser(@PathVariable("id") Integer id, @RequestParam String login, @RequestParam String password,
-                                           @RequestParam String name, @RequestParam String surname, @RequestParam Date birthdate,
+                                           @RequestParam String name, @RequestParam String surname,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthdate,
                                            @RequestParam String gender) {
         Optional<Userr> optionalUser = userRepo.findById(id);
         if (optionalUser.isPresent()) {
             Userr user = optionalUser.get();
             user.setLogin(login);
-            user.setPassword(password);
+            String hashedPassword = passwordEncoder.encode(password);
+            user.setPassword(hashedPassword);
             user.setName(name);
             user.setSurname(surname);
             user.setBirthdate(birthdate);
