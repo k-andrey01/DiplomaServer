@@ -70,13 +70,13 @@ public class UserController {
         return userRepo.findAll();
     }
 
-    @GetMapping(path="/select/{id}")
+    @GetMapping(path="/selectById/{id}")
     public @ResponseBody Optional<Userr> getUserById(@PathVariable("id") Integer id) {
         return userRepo.findById(id);
     }
 
-    @GetMapping(path="/select/{login}")
-    public @ResponseBody Optional<Userr> getUserByLogin(@PathVariable("login") String login) {
+    @GetMapping(path="/selectByLogin")
+    public @ResponseBody Optional<Userr> getUserByLogin(@RequestParam("login") String login) {
         return userRepo.findByLogin(login);
     }
 
