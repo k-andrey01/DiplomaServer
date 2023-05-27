@@ -48,6 +48,23 @@ public class UserController {
         return "Зарегистрирован";
     }
 
+    @PostMapping("/login")
+    public @ResponseBody String login(@RequestParam String login, @RequestParam String password) {
+        Optional<Userr> optionalUser = userRepo.findByLogin(login);
+        if (optionalUser.isPresent()) {
+            Userr user = optionalUser.get();
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return "Аутентификация успешна";
+            } else {
+                return "Неверный пароль";
+            }
+        } else {
+            return "Пользователь не найден";
+        }
+    }
+
+
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Userr> getAllUser() {
         return userRepo.findAll();
