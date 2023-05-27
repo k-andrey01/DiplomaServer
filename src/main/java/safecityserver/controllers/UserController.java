@@ -64,6 +64,19 @@ public class UserController {
         }
     }
 
+    @PutMapping(path="/updatePassword/{login}")
+    public @ResponseBody String updatePassword(@PathVariable("login") String login, @RequestParam String password) {
+        Optional<Userr> optionalUser = userRepo.findByLogin(login);
+        if (optionalUser.isPresent()) {
+            Userr user = optionalUser.get();
+            String hashedPassword = passwordEncoder.encode(password);
+            user.setPassword(hashedPassword);
+            userRepo.save(user);
+            return "Пароль обновлён";
+        } else {
+            return "Пользователь не найден";
+        }
+    }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Userr> getAllUser() {
