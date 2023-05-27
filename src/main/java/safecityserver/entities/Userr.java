@@ -2,9 +2,10 @@ package safecityserver.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,8 @@ public class Userr {
     private String password;
     private String name;
     private String surname;
-    private Date birthdate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate birthdate;
     private String gender;
 
     @OneToMany

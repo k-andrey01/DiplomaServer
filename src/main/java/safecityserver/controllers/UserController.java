@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import safecityserver.entities.Userr;
 import safecityserver.repos.UserRepo;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -19,11 +20,21 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+
     @PostMapping(path="/add")
     public @ResponseBody
     String addNewUser (@RequestParam String login, @RequestParam String password, @RequestParam String name,
-                       @RequestParam String surname, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthdate,
+                       @RequestParam String surname, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthdate,
                        @RequestParam String gender) {
+        Optional<Userr> existingUser = userRepo.findByLogin(login);
+        if (existingUser.isPresent()){
+            return "Данный email уже зарегистрирован в системе";
+        }
+        if (!login.matches(EMAIL_REGEX)){
+            return "Неверный формат email";
+        }
+
         Userr user = new Userr();
         user.setLogin(login);
         String hashedPassword = passwordEncoder.encode(password);
@@ -34,7 +45,7 @@ public class UserController {
         user.setBirthdate(birthdate);
         user.setGender(gender);
         userRepo.save(user);
-        return "Saved";
+        return "Зарегистрирован";
     }
 
     @GetMapping(path="/all")
@@ -47,10 +58,15 @@ public class UserController {
         return userRepo.findById(id);
     }
 
+    @GetMapping(path="/select/{login}")
+    public @ResponseBody Optional<Userr> getUserByLogin(@PathVariable("login") String login) {
+        return userRepo.findByLogin(login);
+    }
+
     @PutMapping(path="/update/{id}")
     public @ResponseBody String updateUser(@PathVariable("id") Integer id, @RequestParam String login, @RequestParam String password,
                                            @RequestParam String name, @RequestParam String surname,
-                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthdate,
+                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate birthdate,
                                            @RequestParam String gender) {
         Optional<Userr> optionalUser = userRepo.findById(id);
         if (optionalUser.isPresent()) {
