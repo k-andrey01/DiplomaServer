@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import safecityserver.entities.Type;
 import safecityserver.repos.TypeRepo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -20,13 +22,25 @@ public class TypeController {
         type.setNameType(typeName);
         type.setKind(kind);
         typeRepo.save(type);
-        return "Saved";
+        return "Добавлено";
     }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Type> getAllTypes() {
         return typeRepo.findAll();
     }
+
+    @GetMapping(path="/allNames")
+    public @ResponseBody List<String> getAllTypeNames() {
+        List<Type> types = typeRepo.findAll();
+        List<String> typeNames = new ArrayList<>();
+        for (Type type : types) {
+            typeNames.add(type.getNameType());
+        }
+        return typeNames;
+    }
+
+
 
     @GetMapping(path="/select/{id}")
     public @ResponseBody Optional<Type> getTypeById(@PathVariable("id") Integer id) {
@@ -42,9 +56,9 @@ public class TypeController {
             type.setNameType(nameType);
             type.setKind(kind);
             typeRepo.save(type);
-            return "Updated";
+            return "Обновлено";
         } else {
-            return "Type not found";
+            return "Тип не найден";
         }
     }
 
@@ -53,9 +67,9 @@ public class TypeController {
         Optional<Type> optionalType = typeRepo.findById(id);
         if (optionalType.isPresent()) {
             typeRepo.delete(optionalType.get());
-            return "Deleted";
+            return "Удалено";
         } else {
-            return "Type not found";
+            return "Тип не найден";
         }
     }
 }
