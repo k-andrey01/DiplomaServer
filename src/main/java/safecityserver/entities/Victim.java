@@ -1,5 +1,6 @@
 package safecityserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,9 +17,9 @@ public class Victim {
 
     private Integer age;
     private String gender;
-    //private Integer crimeId;
 
     @ManyToOne
     @JoinColumn(name = "crime_id", referencedColumnName = "id")
+    @JsonIgnore
     private Crime crime;
 }

@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import safecityserver.dto.CrimesForMapDto;
 import safecityserver.entities.*;
 import safecityserver.repos.CrimeRepo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,6 +41,31 @@ public class CrimeController {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Crime> getAllCrime() {
         return crimeRepo.findAll();
+    }
+
+    @GetMapping(path="/allForMap")
+    public @ResponseBody Iterable<CrimesForMapDto> getAllCrimesForMap(){
+        Iterable<Crime> crimes = crimeRepo.findAll();
+        List<CrimesForMapDto> crimesForMapDtos = new ArrayList<>();
+
+        for (Crime crime: crimes){
+            CrimesForMapDto dto = new CrimesForMapDto();
+            dto.setId(crime.getId());
+            dto.setCoordX(crime.getAddress().getCoordX());
+            dto.setCoordY(crime.getAddress().getCoordY());
+            dto.setTimeCrime(crime.getTimeCrime());
+            dto.setComment(crime.getComment());
+            dto.setCity(crime.getAddress().getCity());
+            dto.setStreet(crime.getAddress().getStreet());
+            dto.setHouse(crime.getAddress().getHouseNumber());
+            dto.setType(crime.getType().getNameType());
+            dto.setKind(crime.getType().getKind());
+            dto.setVictims(crime.getVictims());
+
+            crimesForMapDtos.add(dto);
+        }
+
+        return crimesForMapDtos;
     }
 
     @GetMapping(path="/select/{id}")

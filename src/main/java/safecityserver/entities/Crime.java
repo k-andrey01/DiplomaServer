@@ -37,6 +37,6 @@ public class Crime {
     @JoinColumn(name = "witness_id", referencedColumnName = "id")
     private Userr witness;
 
-    @OneToMany
+    @OneToMany(mappedBy = "crime")
     private List<Victim> victims;
 }

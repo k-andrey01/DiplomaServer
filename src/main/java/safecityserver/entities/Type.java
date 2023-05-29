@@ -1,5 +1,6 @@
 package safecityserver.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,5 +20,6 @@ public class Type {
     private String kind;
 
     @OneToMany
+    @JsonIgnore
     private List<Crime> crimes;
 }
