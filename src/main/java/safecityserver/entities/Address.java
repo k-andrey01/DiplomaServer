@@ -15,7 +15,6 @@ public class Address {
     private Integer id;
 
     private String city;
-    private String district;
     private String street;
     private Double coordX;
     private Double coordY;

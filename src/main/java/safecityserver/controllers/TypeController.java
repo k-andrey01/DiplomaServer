@@ -24,6 +24,13 @@ public class TypeController {
         typeRepo.save(type);
         return "Добавлено";
     }
+    
+    @GetMapping(path="/getByType")
+    public @ResponseBody Integer getTypeId (@RequestParam String typeName){
+        Optional<Type> type = typeRepo.findByNameType(typeName);
+        Type currentType = type.get();
+        return currentType.getId();
+    }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Type> getAllTypes() {

@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -18,13 +19,10 @@ public class Crime {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate timeCrime;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate timeRecord;
-    //private Integer typeId;
-    //private Integer addressId;
-    //private Integer witnessId;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime timeCrime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime timeRecord;
     private String comment;
 
     @OneToOne(optional = true)

@@ -1,12 +1,14 @@
 package safecityserver.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import safecityserver.entities.*;
 import safecityserver.repos.CrimeRepo;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Optional;
 
@@ -18,9 +20,10 @@ public class CrimeController {
 
     @PostMapping(path="/add")
     public @ResponseBody
-    String addNewCrime (@RequestParam LocalDate timeCrime, @RequestParam LocalDate timeRecord, @RequestParam Type type,
-                        @RequestParam Address address, @RequestParam Userr witness,
-                        @RequestParam String comment) {
+    Integer addNewCrime (@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime timeCrime,
+                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime timeRecord,
+                         @RequestParam Type type, @RequestParam Address address, @RequestParam Userr witness,
+                         @RequestParam String comment) {
         Crime crime = new Crime();
         crime.setTimeCrime(timeCrime);
         crime.setTimeRecord(timeRecord);
@@ -29,7 +32,7 @@ public class CrimeController {
         crime.setWitness(witness);
         crime.setComment(comment);
         crimeRepo.save(crime);
-        return "Saved";
+        return crime.getId();
     }
 
     @GetMapping(path="/all")
@@ -43,8 +46,8 @@ public class CrimeController {
     }
 
     @PutMapping(path="/update/{id}")
-    public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam LocalDate timeCrime,
-                                            @RequestParam LocalDate timeRecord, @RequestParam Type type,
+    public @ResponseBody String updateCrime(@PathVariable("id") Integer id, @RequestParam LocalDateTime timeCrime,
+                                            @RequestParam LocalDateTime timeRecord, @RequestParam Type type,
                                             @RequestParam Address address, @RequestParam Userr witness,
                                             @RequestParam String comment) {
         Optional<Crime> optionalCrime = crimeRepo.findById(id);
@@ -57,9 +60,9 @@ public class CrimeController {
             crime.setWitness(witness);
             crime.setComment(comment);
             crimeRepo.save(crime);
-            return "Updated";
+            return "Обновлено";
         } else {
-            return "Address not found";
+            return "Опасность не найдена";
         }
     }
 
@@ -68,9 +71,9 @@ public class CrimeController {
         Optional<Crime> optionalCrime = crimeRepo.findById(id);
         if (optionalCrime.isPresent()) {
             crimeRepo.delete(optionalCrime.get());
-            return "Deleted";
+            return "Удалено";
         } else {
-            return "Address not found";
+            return "Опасность не найдена";
         }
     }
 }

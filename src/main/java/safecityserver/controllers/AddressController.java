@@ -16,17 +16,16 @@ public class AddressController {
 
     @PostMapping(path="/add")
     public @ResponseBody
-    String addNewAddress (@RequestParam String city, @RequestParam String district, @RequestParam String street,
+    Integer addNewAddress (@RequestParam String city, @RequestParam String street,
                           @RequestParam Double coordX, @RequestParam Double coordY, @RequestParam String houseNumber) {
         Address address = new Address();
         address.setCity(city);
-        address.setDistrict(district);
         address.setStreet(street);
         address.setCoordX(coordX);
         address.setCoordY(coordY);
         address.setHouseNumber(houseNumber);
         addressRepo.save(address);
-        return "Saved";
+        return address.getId();
     }
 
     @GetMapping(path="/all")
@@ -40,22 +39,21 @@ public class AddressController {
     }
 
     @PutMapping(path="/update/{id}")
-    public @ResponseBody String updateAddress(@PathVariable("id") Integer id, @RequestParam String city, @RequestParam String district,
+    public @ResponseBody String updateAddress(@PathVariable("id") Integer id, @RequestParam String city,
                                               @RequestParam String street, @RequestParam Double coordX, @RequestParam Double coordY,
                                               @RequestParam String houseNumber) {
         Optional<Address> optionalAddress = addressRepo.findById(id);
         if (optionalAddress.isPresent()) {
             Address address = optionalAddress.get();
             address.setCity(city);
-            address.setDistrict(district);
             address.setStreet(street);
             address.setCoordX(coordX);
             address.setCoordY(coordY);
             address.setHouseNumber(houseNumber);
             addressRepo.save(address);
-            return "Updated";
+            return "Обновлено";
         } else {
-            return "Address not found";
+            return "Адрес не найден";
         }
     }
 
@@ -64,9 +62,9 @@ public class AddressController {
         Optional<Address> optionalAddress = addressRepo.findById(id);
         if (optionalAddress.isPresent()) {
             addressRepo.delete(optionalAddress.get());
-            return "Deleted";
+            return "Удалено";
         } else {
-            return "Address not found";
+            return "Адрес не найден";
         }
     }
 }

@@ -23,7 +23,7 @@ public class VictimController {
         victim.setGender(gender);
         victim.setCrime(crime);
         victimRepo.save(victim);
-        return "Saved";
+        return "Пострадавший добавлен";
     }
 
     @GetMapping(path="/all")
@@ -46,9 +46,9 @@ public class VictimController {
             victim.setGender(gender);
             victim.setCrime(crime);
             victimRepo.save(victim);
-            return "Updated";
+            return "Обновлено";
         } else {
-            return "Address not found";
+            return "Пострадавший не найден";
         }
     }
 
@@ -57,9 +57,9 @@ public class VictimController {
         Optional<Victim> optionalVictim = victimRepo.findById(id);
         if (optionalVictim.isPresent()) {
             victimRepo.delete(optionalVictim.get());
-            return "Deleted";
+            return "Удаленл";
         } else {
-            return "Address not found";
+            return "Пострадавший не найден";
         }
     }
 }
