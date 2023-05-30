@@ -18,7 +18,7 @@ public class CrimesForMapDto {
     private Integer id;
     private Double coordX;
     private Double coordY;
-    @JsonFormat(pattern = "yyyy-MM-d'T'HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime timeCrime;
     private String comment;
     private String city;
