@@ -10,10 +10,7 @@ import safecityserver.repos.CrimeRepo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(path="/crime")
@@ -43,6 +40,18 @@ public class CrimeController {
         return crimeRepo.findAll();
     }
 
+    @GetMapping(path="/countByKind")
+    @ResponseBody
+    public Map<String, Long> getCountByKind() {
+        List<Crime> crimes = crimeRepo.findAll();
+        Map<String, Long> countByKind = new HashMap<>();
+        for (Crime crime : crimes) {
+            String kind = crime.getType().getKind();
+            countByKind.put(kind, countByKind.getOrDefault(kind, 0L) + 1);
+        }
+        return countByKind;
+    }
+
     @GetMapping(path="/allForMap")
     public @ResponseBody Iterable<CrimesForMapDto> getAllCrimesForMap(){
         Iterable<Crime> crimes = crimeRepo.findAll();
@@ -67,6 +76,32 @@ public class CrimeController {
 
         return crimesForMapDtos;
     }
+
+    @GetMapping(path="/allByWitness/{login}")
+    public @ResponseBody Iterable<CrimesForMapDto> getAllCrimesForMap(@PathVariable("login") String login){
+        Iterable<Crime> crimes = crimeRepo.findByWitnessLogin(login);
+        List<CrimesForMapDto> crimesForMapDtos = new ArrayList<>();
+
+        for (Crime crime: crimes){
+            CrimesForMapDto dto = new CrimesForMapDto();
+            dto.setId(crime.getId());
+            dto.setCoordX(crime.getAddress().getCoordX());
+            dto.setCoordY(crime.getAddress().getCoordY());
+            dto.setTimeCrime(crime.getTimeCrime());
+            dto.setComment(crime.getComment());
+            dto.setCity(crime.getAddress().getCity());
+            dto.setStreet(crime.getAddress().getStreet());
+            dto.setHouse(crime.getAddress().getHouseNumber());
+            dto.setType(crime.getType().getNameType());
+            dto.setKind(crime.getType().getKind());
+            dto.setVictims(crime.getVictims());
+
+            crimesForMapDtos.add(dto);
+        }
+
+        return crimesForMapDtos;
+    }
+
 
     @GetMapping(path="/select/{id}")
     public @ResponseBody Optional<Crime> getCrimeById(@PathVariable("id") Integer id) {

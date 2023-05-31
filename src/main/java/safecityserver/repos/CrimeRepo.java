@@ -6,5 +6,5 @@ import safecityserver.entities.Crime;
 
 @Repository
 public interface CrimeRepo extends JpaRepository<Crime, Integer> {
-
+    Iterable<Crime> findByWitnessLogin(String login);
 }

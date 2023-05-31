@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import safecityserver.entities.Type;
 import safecityserver.repos.TypeRepo;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping(path="/type")
