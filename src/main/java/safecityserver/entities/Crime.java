@@ -37,6 +37,6 @@ public class Crime {
     @JoinColumn(name = "witness_id", referencedColumnName = "id")
     private Userr witness;
 
-    @OneToMany(mappedBy = "crime")
+    @OneToMany(mappedBy = "crime", cascade = CascadeType.REMOVE)
     private List<Victim> victims;
 }
