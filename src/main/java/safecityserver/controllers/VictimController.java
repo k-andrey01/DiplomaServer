@@ -7,6 +7,9 @@ import safecityserver.entities.Crime;
 import safecityserver.entities.Victim;
 import safecityserver.repos.VictimRepo;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +27,48 @@ public class VictimController {
         victim.setCrime(crime);
         victimRepo.save(victim);
         return "Пострадавший добавлен";
+    }
+
+    @GetMapping(path="/countByGender")
+    @ResponseBody
+    public Map<String, Long> getCountByGender() {
+        List<Victim> victims = victimRepo.findAll();
+        Map<String, Long> countByGender = new HashMap<>();
+        for (Victim victim : victims) {
+            String gender = victim.getGender();
+            countByGender.put(gender, countByGender.getOrDefault(gender, 0L) + 1);
+        }
+        return countByGender;
+    }
+
+    @GetMapping("/countByAgeGroup")
+    @ResponseBody
+    public Map<String, Long> getCountByAgeGroup() {
+        List<Victim> victims = victimRepo.findAll();
+        Map<String, Long> countByAgeGroup = new HashMap<>();
+
+        for (Victim victim : victims) {
+            int age = victim.getAge();
+            String ageGroup = getAgeGroup(age);
+
+            countByAgeGroup.put(ageGroup, countByAgeGroup.getOrDefault(ageGroup, 0L) + 1);
+        }
+
+        return countByAgeGroup;
+    }
+
+    private String getAgeGroup(int age) {
+        if (age <= 11) {
+            return "0-11";
+        } else if (age <= 17) {
+            return "12-17";
+        } else if (age <= 35) {
+            return "18-35";
+        } else if (age <= 60) {
+            return "36-60";
+        } else {
+            return "61+";
+        }
     }
 
     @GetMapping(path="/all")

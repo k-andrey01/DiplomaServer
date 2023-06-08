@@ -10,6 +10,7 @@ import safecityserver.repos.CrimeRepo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @RestController
@@ -50,6 +51,36 @@ public class CrimeController {
             countByKind.put(kind, countByKind.getOrDefault(kind, 0L) + 1);
         }
         return countByKind;
+    }
+
+    @GetMapping("/countByTime")
+    @ResponseBody
+    public Map<String, Long> getCountByTime() {
+        List<Crime> crimes = crimeRepo.findAll();
+        Map<String, Long> countByTime = new HashMap<>();
+
+        for (Crime crime : crimes) {
+            LocalTime time = crime.getTimeCrime().toLocalTime();
+            String timeGroup = getTimeGroup(time);
+
+            countByTime.put(timeGroup, countByTime.getOrDefault(timeGroup, 0L) + 1);
+        }
+
+        return countByTime;
+    }
+
+    private String getTimeGroup(LocalTime time) {
+        int hour = time.getHour();
+
+        if (hour >= 23 && hour < 6) {
+            return "23.00-6.00";
+        } else if (hour >= 6 && hour < 12) {
+            return "6.00-12.00";
+        } else if (hour >= 12 && hour < 18) {
+            return "12.00-18.00";
+        } else {
+            return "18.00-23.00";
+        }
     }
 
     @GetMapping(path="/allForMap")
